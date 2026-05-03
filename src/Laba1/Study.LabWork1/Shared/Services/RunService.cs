@@ -1,4 +1,4 @@
-using Study.LabWork1.Features.Task1;
+using Study.LabWork1.Features.Task2;
 using Study.LabWork1.Shared.Abstractions;
 
 namespace Study.LabWork1.Shared.Services;
@@ -39,7 +39,43 @@ public class RunService : IRunService
     /// <summary>
     /// Задание 2
     /// </summary>
-    public void RunTask2() => throw new NotImplementedException();
+    public void RunTask2()
+    {
+        Console.WriteLine("=== Задание 2: Паттерн Adapter + Port ===\n");
+
+        // 1. In-Memory репозиторий (каждый раз начинается с чистого листа)
+        Console.WriteLine("1. InMemoryOrderRepository (хранение в памяти):");
+        IOrderRepository repo = new InMemoryOrderRepository();
+
+        repo.Add(new Order { CustomerName = "Иван Иванов", TotalAmount = 1250.50m });
+        repo.Add(new Order { CustomerName = "Александр Воробьев", TotalAmount = 890.00m });
+
+        foreach (var order in repo.GetAll())
+            Console.WriteLine($"   {order}");
+
+        repo.Save();
+        Console.WriteLine();
+
+        // 2. CSV репозиторий — очищаем файл перед демонстрацией
+        Console.WriteLine("2. CsvOrderRepository (хранение в CSV-файле):");
+
+        string testFile = "orders_demo.csv";                    // отдельный файл для демонстрации
+        if (File.Exists(testFile))
+            File.Delete(testFile);                              // ← очищаем файл
+
+        repo = new CsvOrderRepository(testFile);
+
+        repo.Add(new Order { CustomerName = "Мария Буш", TotalAmount = 3450.75m });
+        repo.Add(new Order { CustomerName = "Ольга Смирнова", TotalAmount = 670.25m });
+
+        foreach (var order in repo.GetAll())
+            Console.WriteLine($"   {order}");
+
+        repo.Save();
+
+        Console.WriteLine("\nЗадание 2 выполнено.");
+        Console.WriteLine("Клиентский код работает только через интерфейс IOrderRepository.");
+    }
 
     /// <summary>
     /// Задание 3

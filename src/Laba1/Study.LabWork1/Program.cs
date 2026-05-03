@@ -10,7 +10,7 @@ public static class Program
     /// <summary>
     /// Номер выполняемой задачи
     /// </summary>
-    private const int RUN_TASK_NUMBER = 1;
+    private const int RUN_TASK_NUMBER = 2;
 
     /// <summary>
     /// Старт программы
